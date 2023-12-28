@@ -117,11 +117,11 @@ BacktesingEndDate = '2021-12-31'
 
 
 
-ReturnsDf = pd.DataFrame(columns= ['EntryTime' , 'AvgReturn_lb1' , 'AvgReturn_lb2' , 'AvgReturn_lb3' , 'AvgReturn_lb4' , 'AvgReturn_lb5' , 'AvgReturn_lb6' , 'AvgReturn_lb7' , \
-    'AvgReturn_lb8' , 'AvgReturn_lb9' , 'AvgReturn_lb10' , 'AvgReturn_lb11' , 'AvgReturn_lb12' , 'AvgReturn_lb13' , 'AvgReturn_lb14' , \
-        'AvgReturn_lb15' , 'AvgReturn_lb16' , 'AvgReturn_lb17' , 'AvgReturn_lb18' , 'AvgReturn_lb19' , 'AvgReturn_lb20' , 'AvgReturn_lb21' ])
+# ReturnsDf = pd.DataFrame(columns= ['EntryTime' , 'AvgReturn_lb1' , 'AvgReturn_lb2' , 'AvgReturn_lb3' , 'AvgReturn_lb4' , 'AvgReturn_lb5' , 'AvgReturn_lb6' , 'AvgReturn_lb7' , \
+#     'AvgReturn_lb8' , 'AvgReturn_lb9' , 'AvgReturn_lb10' , 'AvgReturn_lb11' , 'AvgReturn_lb12' , 'AvgReturn_lb13' , 'AvgReturn_lb14' , \
+#         'AvgReturn_lb15' , 'AvgReturn_lb16' , 'AvgReturn_lb17' , 'AvgReturn_lb18' , 'AvgReturn_lb19' , 'AvgReturn_lb20' , 'AvgReturn_lb21' ])
 
-def get_one_comb_avg_ret(dateIndex , Lookback, TopStocks , HoldingBars):
+def get_one_comb_avg_ret(dateIndex , Lookback, TopStocks , HoldingBars ,ReturnsDf):
     dfs = {Symbol: pd.read_csv(file) for Symbol, file in zip(SelectedSymbols, SelectedFiles)}
     for i in dfs.keys():
         dfs[i]['date'] = pd.to_datetime(dfs[i]['date'])
@@ -155,7 +155,7 @@ def process_iteration(i):
     ReturnsDf = pd.DataFrame(columns= ['EntryTime' , 'AvgReturn_lb1' , 'AvgReturn_lb2' , 'AvgReturn_lb3' , 'AvgReturn_lb4' , 'AvgReturn_lb5' , 'AvgReturn_lb6' , 'AvgReturn_lb7' , \
     'AvgReturn_lb8' , 'AvgReturn_lb9' , 'AvgReturn_lb10' , 'AvgReturn_lb11' , 'AvgReturn_lb12' , 'AvgReturn_lb13' , 'AvgReturn_lb14' , \
         'AvgReturn_lb15' , 'AvgReturn_lb16' , 'AvgReturn_lb17' , 'AvgReturn_lb18' , 'AvgReturn_lb19' , 'AvgReturn_lb20' , 'AvgReturn_lb21' ])
-    get_one_comb_avg_ret(dateIndex, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],10,i)
+    get_one_comb_avg_ret(dateIndex, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],10,i, ReturnsDf)
     
     ReturnsDf.to_csv(f'returns_Holdibar_{i}_Top10.csv', index=False)
 
