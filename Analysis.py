@@ -99,7 +99,7 @@ def get_top_stocks(dfs, TargetDate , LookBacks , NoOfStocks , files,Symbols, Hol
         
         
     for LookBack in LookBacks:
-        rtdf2 = returndf.sort_values(by=f'returns_lb{LookBack}', ascending=False ).reset_index(drop=True).iloc[:NoOfStocks]
+        rtdf2 = returndf.sort_values(by=f'returns_lb{LookBack}', ascending=True ).reset_index(drop=True).iloc[:NoOfStocks]
         
         PerChanges = list(((dfs[Symbol].copy().loc[TargetDate:].iloc[1:].iloc[:HoldingBar].iloc[-1]['close'] -dfs[Symbol].copy().loc[TargetDate:].iloc[1:].iloc[:HoldingBar].iloc[0]['open'] )/(dfs[Symbol].copy().loc[TargetDate:].iloc[1:].iloc[:HoldingBar].iloc[0]['open'] ) * 100) for Symbol in rtdf2['stock'])
         AvgPerChange = sum(PerChanges)/len(PerChanges)
@@ -157,7 +157,7 @@ def process_iteration(i):
         'AvgReturn_lb15' , 'AvgReturn_lb16' , 'AvgReturn_lb17' , 'AvgReturn_lb18' , 'AvgReturn_lb19' , 'AvgReturn_lb20' , 'AvgReturn_lb21' ])
     get_one_comb_avg_ret(dateIndex, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],10,i, ReturnsDf)
     
-    ReturnsDf.to_csv(f'returns_Holdibar_{i}_Top10.csv', index=False)
+    ReturnsDf.to_csv(f'returns_Holdibar_{i}_Top10_Meanreversion.csv', index=False)
 
 
 
