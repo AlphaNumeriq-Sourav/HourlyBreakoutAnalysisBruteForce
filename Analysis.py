@@ -84,7 +84,7 @@ def get_top_stocks(dfs, TargetDate , LookBacks , NoOfStocks , files,Symbols, Hol
     returndf = pd.DataFrame(columns=['stock','returns_lb1' , 'returns_lb2' , 'returns_lb3' , 'returns_lb4' , 'returns_lb5' , 'returns_lb6',\
         'returns_lb7' , 'returns_lb8' , 'returns_lb9' , 'returns_lb10' , 'returns_lb11' , 'returns_lb12' ,\
             'returns_lb13' , 'returns_lb14' , 'returns_lb15' , 'returns_lb16' , 'returns_lb17' , 'returns_lb18' , \
-                'returns_lb19' , 'returns_lb20' , 'returns_lb21' , 'path'])
+                'returns_lb19' , 'returns_lb20' , 'returns_lb21' , 'path', 'LastClosePrice'])
   
   
   
@@ -94,9 +94,10 @@ def get_top_stocks(dfs, TargetDate , LookBacks , NoOfStocks , files,Symbols, Hol
             continue
         returns = [((df.loc[:TargetDate].iloc[-Lookback:].iloc[-1]['close'] - df.loc[:TargetDate].iloc[-Lookback:].iloc[0]['open'])/df.loc[:TargetDate].iloc[-Lookback:].iloc[0]['open']) * 100   \
             for Lookback in LookBacks]
-        returndf.loc[len(returndf)] = [Symbol] + returns + [file]
+        returndf.loc[len(returndf)] = [Symbol] + returns + [file] + [df.loc[:TargetDate].iloc[-1]['close']]
         
-        
+    
+    returndf = returndf[returndf.LastClosePrice>20]
         
     for LookBack in LookBacks:
         rtdf2 = returndf.sort_values(by=f'returns_lb{LookBack}', ascending=True ).reset_index(drop=True).iloc[:NoOfStocks]
@@ -157,7 +158,7 @@ def process_iteration(i):
         'AvgReturn_lb15' , 'AvgReturn_lb16' , 'AvgReturn_lb17' , 'AvgReturn_lb18' , 'AvgReturn_lb19' , 'AvgReturn_lb20' , 'AvgReturn_lb21' ])
     get_one_comb_avg_ret(dateIndex, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21],10,i, ReturnsDf)
     
-    ReturnsDf.to_csv(f'returns_Holdibar_{i}_Top10_Meanreversion.csv', index=False)
+    ReturnsDf.to_csv(f'returns_Holdibar_{i}_Top10_Meanreversion_woPennyStocks.csv', index=False)
 
 
 
